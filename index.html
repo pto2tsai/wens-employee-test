@@ -14,7 +14,7 @@
 <section id="exam" class="panel hide"><div class="top"><span id="meta"></span><span id="timer" class="timer"></span></div><div class="bar"><div id="progress"></div></div><div class="top"><span id="count"></span><b id="kind"></b></div><div id="question" class="q"></div><div id="opts"></div><div class="row"><button class="secondary" onclick="prev()">上一題</button><button class="primary" onclick="next()">下一題／交卷</button></div><p style="text-align:center"><button class="danger" onclick="submit(false)">提前交卷</button></p></section>
 <section id="result" class="panel hide"><h2 style="text-align:center">測驗完成</h2><div id="score" class="score"></div><p id="detail" style="text-align:center"></p><p id="breakdown" style="text-align:center"></p><button class="primary" onclick="home()">下一位應徵者</button><button class="secondary" style="width:100%;margin-top:8px" onclick="admin()">主管查看成績</button></section>
 <section id="admin" class="panel hide"><h2>主管管理後台</h2><div id="login"><label>主管 PIN（預設 1688）</label><input id="pin" type="password" inputmode="numeric"><button class="primary" onclick="login()">登入</button></div><div id="data" class="hide"><p id="stats"></p><div class="row"><button class="primary" onclick="csv()">匯出 CSV</button><button class="secondary" onclick="backup()">備份 JSON</button></div><div class="row"><button class="secondary" onclick="changePin()">修改 PIN</button><button class="secondary" onclick="home()">返回首頁</button></div><div class="scroll"><table><thead><tr><th>時間</th><th>姓名</th><th>公司</th><th>職務</th><th>卷別</th><th>分數</th></tr></thead><tbody id="rows"></tbody></table></div><p class="note">成績僅儲存在目前 iPad 的 Safari 本機。請定期匯出備份。清除網站資料或更換裝置可能造成資料遺失。</p><button class="danger" onclick="clearAll()">清除全部成績</button></div></section>
-<section id="guide" class="panel hide"><h2>使用說明</h2><p>1. 輸入應徵公司、姓名、職務及卷別。<br>2. 每份試卷 20 題，數學 10 題、邏輯 10 題。<br>3. 生產作業員 15 分鐘；倉庫理貨員 15 分鐘。<br>4. 每題 5 分，滿分 100 分。<br>5. 主管後台預設 PIN 1688，可匯出 CSV 與 JSON 備份。</p><button class="primary" onclick="home()">返回</button></section>
+<section id="guide" class="panel hide"><h2>使用說明</h2><p>1. 輸入應徵公司、姓名、職務及卷別。<br>2. 每份試卷 20 題，簡易數學 5 題、邏輯與判斷 15 題。<br>3. 生產作業員 15 分鐘；倉庫理貨員 15 分鐘。<br>4. 每題 5 分，滿分 100 分。<br>5. 主管後台預設 PIN 1688，可匯出 CSV 與 JSON 備份。</p><button class="primary" onclick="home()">返回</button></section>
 </main>
 <script>
 const mathSets={
@@ -24,11 +24,6 @@ A:[
 ["60 − 18 = ?",["40","42","44","48"],1],
 ["7 × 6 = ?",["36","40","42","48"],2],
 ["48 ÷ 6 = ?",["6","7","8","9"],2],
-["一箱有 10 包，3 箱共有幾包？",["20 包","30 包","40 包","50 包"],1],
-["2 公斤再加 500 公克，共幾公斤？",["2.2 公斤","2.5 公斤","3 公斤","3.5 公斤"],1],
-["有 50 箱，出貨 12 箱，還剩幾箱？",["36 箱","38 箱","40 箱","42 箱"],1],
-["每盤放 5 包，4 盤共有幾包？",["15 包","20 包","25 包","30 包"],1],
-["上午完成 18 箱，下午完成 12 箱，全天共幾箱？",["28 箱","30 箱","32 箱","36 箱"],1]
 ],
 B:[
 ["9 + 6 = ?",["13","14","15","16"],2],
@@ -36,11 +31,6 @@ B:[
 ["70 − 25 = ?",["35","40","45","50"],2],
 ["8 × 5 = ?",["35","40","45","50"],1],
 ["54 ÷ 6 = ?",["7","8","9","10"],2],
-["一箱有 12 包，2 箱共有幾包？",["12 包","18 包","24 包","30 包"],2],
-["1 公斤再加 500 公克，共幾公克？",["1,000 公克","1,250 公克","1,500 公克","2,000 公克"],2],
-["有 60 箱，出貨 20 箱，還剩幾箱？",["30 箱","35 箱","40 箱","45 箱"],2],
-["每盤放 6 包，3 盤共有幾包？",["12 包","15 包","18 包","21 包"],2],
-["上午完成 16 箱，下午完成 14 箱，全天共幾箱？",["28 箱","30 箱","32 箱","34 箱"],1]
 ],
 C:[
 ["7 + 8 = ?",["13","14","15","16"],2],
@@ -48,12 +38,7 @@ C:[
 ["80 − 35 = ?",["35","40","45","50"],2],
 ["6 × 7 = ?",["36","40","42","48"],2],
 ["64 ÷ 8 = ?",["6","7","8","9"],2],
-["一箱有 8 包，4 箱共有幾包？",["24 包","28 包","32 包","36 包"],2],
-["3 公斤等於幾公克？",["300 公克","3,000 公克","30,000 公克","300,000 公克"],1],
-["有 45 箱，出貨 15 箱，還剩幾箱？",["25 箱","30 箱","35 箱","40 箱"],1],
-["每盤放 4 包，5 盤共有幾包？",["16 包","18 包","20 包","24 包"],2],
-["上午完成 20 箱，下午完成 15 箱，全天共幾箱？",["30 箱","35 箱","40 箱","45 箱"],1]
-]};
+],};
 const logicSets={
 "生產作業員":{
 A:[
@@ -131,18 +116,40 @@ C:[
 ["發現貨物外箱破損，應該怎麼做？",["直接出貨","先標示並回報確認","藏到後面","換標籤就好"],1]
 ]
 }};
+const extraLogic={
+A:[
+["四個箱子排成一列：紅箱在藍箱左邊，黃箱在藍箱右邊。哪個敘述一定正確？",["紅箱在藍箱左邊","黃箱在紅箱左邊","藍箱最左邊","無法判斷紅箱與黃箱的位置"],0],
+["找出最不一樣的一個：",["圓形","三角形","正方形","香蕉"],3],
+["如果今天不是星期一，而且明天是星期一，今天是星期幾？",["星期六","星期日","星期二","星期五"],1],
+["甲、乙、丙三人排隊，甲不是第一個，丙在乙後面。誰可能排第一個？",["甲","乙","丙","甲或丙"],1],
+["一個規則是「看到紅色卡片就要停下」。現在看到藍色卡片，依照這條規則可以知道什麼？",["一定要停下","一定不能停下","這條規則沒有說藍卡要怎麼做","藍卡等於紅卡"],2]
+],
+B:[
+["三個箱子分別是大、中、小。大箱比中箱重，中箱比小箱重。最輕的是？",["大箱","中箱","小箱","無法判斷"],2],
+["找出最不一樣的一個：",["手套","口罩","安全帽","蘋果"],3],
+["如果明天是星期五，昨天是星期幾？",["星期二","星期三","星期四","星期六"],1],
+["甲在乙前面，丙在乙後面。誰一定在最後面？",["甲","乙","丙","無法判斷"],2],
+["每次機台亮綠燈代表可以開始。現在機台沒有亮綠燈，可以確定可以開始嗎？",["可以","不可以直接確定","一定故障","一定要關機"],1]
+],
+C:[
+["三個人中，甲比乙高，乙比丙高。誰最矮？",["甲","乙","丙","無法判斷"],2],
+["找出最不一樣的一個：",["白蝦","鮭魚","花枝","推車"],3],
+["如果昨天是星期日，後天是星期幾？",["星期一","星期二","星期三","星期四"],2],
+["紅、藍、綠三張卡片，紅卡不在最左邊，綠卡在藍卡右邊。哪個位置關係一定成立？",["綠卡在藍卡右邊","紅卡在最左邊","藍卡在最右邊","紅卡在綠卡左邊"],0],
+["規定只有完成檢查才能貼合格標籤。某箱已貼合格標籤，可以推知什麼？",["一定完成檢查","一定已出貨","一定沒有瑕疵","無法推知是否檢查"],0]
+]};
 const ids=["home","exam","result","admin","guide"];let qs=[],ans=[],idx=0,meta={},timer=null,deadline=0;
 function show(id){ids.forEach(x=>document.getElementById(x).classList.toggle("hide",x!==id))}
 function home(){if(timer)clearInterval(timer);timer=null;show("home")}
 function guide(){show("guide")}
 function records(){try{return JSON.parse(localStorage.getItem("wens_hr_results")||"[]")}catch(e){return[]}}
 function save(a){localStorage.setItem("wens_hr_results",JSON.stringify(a))}
-function start(){let name=document.getElementById("name").value.trim();if(!name)return alert("請輸入應徵者姓名");let role=document.getElementById("role").value,ver=document.getElementById("version").value[0],set=mathSets[ver],ls=logicSets[role][ver];let math=set.map(x=>({type:"數學",q:x[0],opts:x[1].map(String),correct:x[2]}));let logic=ls.map(x=>({type:"情境／邏輯",q:x[0],opts:x[1],correct:x[2]}));qs=math.concat(logic);qs.sort(()=>Math.random()-.5);ans=Array(qs.length).fill(null);idx=0;let mins=15;meta={name,company:document.getElementById("company").value,role,version:ver+" 卷",started:new Date().toISOString()};deadline=Date.now()+mins*60000;document.getElementById("meta").textContent=meta.company+"｜"+role+"｜"+meta.version;show("exam");draw();tick();timer=setInterval(tick,500)}
+function start(){let name=document.getElementById("name").value.trim();if(!name)return alert("請輸入應徵者姓名");let role=document.getElementById("role").value,ver=document.getElementById("version").value[0],set=mathSets[ver],ls=logicSets[role][ver].concat(extraLogic[ver]);let math=set.map(x=>({type:"簡易數學",q:x[0],opts:x[1].map(String),correct:x[2]}));let logic=ls.map(x=>({type:"情境／邏輯",q:x[0],opts:x[1],correct:x[2]}));qs=math.concat(logic);qs.sort(()=>Math.random()-.5);ans=Array(qs.length).fill(null);idx=0;let mins=15;meta={name,company:document.getElementById("company").value,role,version:ver+" 卷",started:new Date().toISOString()};deadline=Date.now()+mins*60000;document.getElementById("meta").textContent=meta.company+"｜"+role+"｜"+meta.version;show("exam");draw();tick();timer=setInterval(tick,500)}
 function tick(){let s=Math.max(0,Math.ceil((deadline-Date.now())/1000));document.getElementById("timer").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");if(s<=0)submit(true)}
 function draw(){let q=qs[idx];document.getElementById("count").textContent="第 "+(idx+1)+" / 20 題";document.getElementById("kind").textContent=q.type;document.getElementById("question").textContent=q.q;document.getElementById("progress").style.width=((idx+1)/20*100)+"%";let el=document.getElementById("opts");el.innerHTML="";q.opts.forEach((v,i)=>{let b=document.createElement("button");b.className="option"+(ans[idx]===i?" sel":"");b.textContent="ABCD"[i]+"　"+v;b.onclick=()=>{ans[idx]=i;draw()};el.appendChild(b)})}
 function prev(){if(idx>0){idx--;draw()}}
 function next(){if(idx<19){idx++;draw()}else submit(false)}
-function submit(auto){if(!auto&&!confirm("確定交卷？"))return;if(timer)clearInterval(timer);timer=null;let math=0,logic=0;qs.forEach((q,i)=>{if(ans[i]===q.correct){if(q.type==="數學")math++;else logic++}});let rec={...meta,finished:new Date().toISOString(),score:(math+logic)*5,mathCorrect:math,logicCorrect:logic,auto,answers:qs.map((q,i)=>({q:q.q,type:q.type,selected:ans[i],correct:q.correct}))};let all=records();all.push(rec);save(all);document.getElementById("score").textContent=rec.score+" 分";document.getElementById("detail").textContent=rec.name+"｜"+rec.company+"｜"+rec.role+"｜"+rec.version;document.getElementById("breakdown").textContent="數學 "+math+"/10｜邏輯 "+logic+"/10"+(auto?"｜時間到自動交卷":"");show("result")}
+function submit(auto){if(!auto&&!confirm("確定交卷？"))return;if(timer)clearInterval(timer);timer=null;let math=0,logic=0;qs.forEach((q,i)=>{if(ans[i]===q.correct){if(q.type==="數學")math++;else logic++}});let rec={...meta,finished:new Date().toISOString(),score:(math+logic)*5,mathCorrect:math,logicCorrect:logic,auto,answers:qs.map((q,i)=>({q:q.q,type:q.type,selected:ans[i],correct:q.correct}))};let all=records();all.push(rec);save(all);document.getElementById("score").textContent=rec.score+" 分";document.getElementById("detail").textContent=rec.name+"｜"+rec.company+"｜"+rec.role+"｜"+rec.version;document.getElementById("breakdown").textContent="簡易數學 "+math+"/5｜邏輯與判斷 "+logic+"/15"+(auto?"｜時間到自動交卷":"");show("result")}
 function admin(){show("admin");document.getElementById("login").classList.remove("hide");document.getElementById("data").classList.add("hide")}
 function login(){if(document.getElementById("pin").value!==(localStorage.getItem("wens_hr_pin")||"1688"))return alert("PIN 錯誤");document.getElementById("login").classList.add("hide");document.getElementById("data").classList.remove("hide");render()}
 function render(){let a=records();document.getElementById("stats").textContent="累計 "+a.length+" 人次｜平均 "+(a.length?Math.round(a.reduce((s,x)=>s+x.score,0)/a.length):0)+" 分";let body=document.getElementById("rows");body.innerHTML="";a.slice().reverse().forEach(r=>{let tr=document.createElement("tr");[new Date(r.finished).toLocaleString("zh-TW"),r.name,r.company,r.role,r.version,r.score].forEach(v=>{let td=document.createElement("td");td.textContent=v;tr.appendChild(td)});body.appendChild(tr)})}
